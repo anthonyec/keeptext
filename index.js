@@ -51,7 +51,7 @@ async function main() {
     try {
       const json = JSON.parse(fileContents);
 
-      let textFile = ';
+      let textFile = '';
 
       if (json.textContent) {
         textFile += parseTextContent(json.textContent);
