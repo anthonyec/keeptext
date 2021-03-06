@@ -14,7 +14,10 @@ function parseTextContent(textContent) {
 }
 
 function parseListContent(listContent) {
-  return '';
+  return listContent.map((item) => {
+    const checkbox = item.isChecked ? '- [x]' : '- [ ]';
+    return `${checkbox} ${item.text}`;
+  }).join('\n');
 }
 
 async function main() {
@@ -57,7 +60,11 @@ async function main() {
       const isoWithoutTime = iso.split('T')[0];
       const newFileNameWithExt = `${isoWithoutTime} - ${fileName}.txt`;
 
-      fs.writeFileSync(path.join(DESTINATION, newFileNameWithExt), textFile, 'utf8');
+      fs.writeFileSync(
+        path.join(DESTINATION, newFileNameWithExt),
+        textFile,
+        'utf8'
+      );
     } catch(err) {
       throw new Error(`The file "${fileNameWithExt}" could not be parsed as JSON`);
     }
