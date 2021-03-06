@@ -14,10 +14,12 @@ function parseTextContent(textContent) {
 }
 
 function parseListContent(listContent) {
-  return listContent.map((item) => {
-    const checkbox = item.isChecked ? '- [x]' : '- [ ]';
-    return `${checkbox} ${item.text}`;
-  }).join('\n');
+  return listContent
+    .map((item) => {
+      const checkbox = item.isChecked ? '- [x]' : '- [ ]';
+      return `${checkbox} ${item.text}`;
+    })
+    .join('\n');
 }
 
 async function main() {
@@ -27,9 +29,11 @@ async function main() {
     stdout.write(`\nArguments:\n`);
     stdout.write(
       `<source>           Directory containing keep exported files\n`
-      );
-      stdout.write(`<destination>      Where to place the generated text files\n`);
-      return;
+    );
+    stdout.write(
+      `<destination>      Where to place the generated text files\n`
+    );
+    return;
   }
 
   const exportedFiles = fs.readdirSync(SOURCE);
@@ -37,14 +41,17 @@ async function main() {
 
   for (let index in jsonFiles) {
     const fileNameWithExt = jsonFiles[index];
-    const fileName = path.basename(fileNameWithExt, path.extname(fileNameWithExt));
+    const fileName = path.basename(
+      fileNameWithExt,
+      path.extname(fileNameWithExt)
+    );
     const filePath = path.join(SOURCE, fileNameWithExt);
     const fileContents = fs.readFileSync(filePath, 'utf8');
 
     try {
       const json = JSON.parse(fileContents);
 
-      let textFile = '';
+      let textFile = ';
 
       if (json.textContent) {
         textFile += parseTextContent(json.textContent);
@@ -65,8 +72,10 @@ async function main() {
         textFile,
         'utf8'
       );
-    } catch(err) {
-      throw new Error(`The file "${fileNameWithExt}" could not be parsed as JSON`);
+    } catch (err) {
+      throw new Error(
+        `The file '${fileNameWithExt}' could not be parsed as JSON`
+      );
     }
   }
 }
